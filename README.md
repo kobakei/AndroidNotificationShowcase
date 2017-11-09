@@ -1,6 +1,6 @@
 # AndroidNotificationShowcase
 
-DroidKaigi 2018の講演のサンプルコードです。
+DroidKaigi 2018の講演「開発者が知っておきたい通知の歴史」のサンプルコードです。
 
 ## License
 
