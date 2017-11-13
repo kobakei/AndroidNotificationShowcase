@@ -1,7 +1,7 @@
 package io.github.kobakei.androidnotificationshowcase
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.main_layout.*
 
 class MainActivity : AppCompatActivity() {
@@ -10,10 +10,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_layout)
 
-        button1.setOnClickListener {
+        NotificationUtility.setUpNotificationChannel(applicationContext)
 
+        buttonBasic.setOnClickListener {
+            NotificationUtility.showNotification(applicationContext, "channel",
+                    "This is title", "This is message")
+        }
+        buttonBigPicture.setOnClickListener {
+            NotificationUtility.showBigPictureNotification(applicationContext, "channel",
+                    "This is title", "This is message")
         }
     }
-
 
 }
