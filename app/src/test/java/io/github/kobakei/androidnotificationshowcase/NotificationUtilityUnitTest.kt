@@ -1,6 +1,5 @@
 package io.github.kobakei.androidnotificationshowcase
 
-import org.junit.Assert
 import org.junit.Test
 
 /**
@@ -10,7 +9,6 @@ class NotificationUtilityUnitTest {
 
     @Test
     fun foo_isOk() {
-        Assert.assertEquals("bar", NotificationUtility.foo())
     }
 
 }
