@@ -34,7 +34,9 @@ class NotificationUtility {
             val notification = NotificationCompat.Builder(context, channel)
                     .setContentTitle(title)
                     .setContentText(message)
+                    .setTicker(title) // for legacy Android
                     .setSmallIcon(R.drawable.ic_notification)
+                    .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher_round))
                     .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                     .setDefaults(Notification.DEFAULT_ALL)
                     .build()
@@ -55,7 +57,55 @@ class NotificationUtility {
                     .setStyle(style)
                     .setContentTitle(title)
                     .setContentText(message)
+                    .setTicker(title) // for legacy Android
                     .setSmallIcon(R.drawable.ic_notification)
+                    .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher_round))
+                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .build()
+            val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            nm.notify(1, notification)
+        }
+
+        /**
+         * BigTextスタイルの通知を表示する
+         */
+        fun showBigTextNotification(context: Context, channel: String, title: String, message: String) {
+            val style = NotificationCompat.BigTextStyle()
+                    .setBigContentTitle("Big content title")
+                    .setSummaryText("Big text summary")
+                    .bigText("This is long text. This is long text. This is long text. This is long text. This is long text.")
+            val notification = NotificationCompat.Builder(context, channel)
+                    .setStyle(style)
+                    .setContentTitle(title)
+                    .setContentText(message)
+                    .setTicker(title) // for legacy Android
+                    .setSmallIcon(R.drawable.ic_notification)
+                    .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher_round))
+                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .build()
+            val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            nm.notify(1, notification)
+        }
+
+        /**
+         * Inboxスタイルの通知を表示する
+         */
+        fun showInboxNotification(context: Context, channel: String, title: String, message: String) {
+            val style = NotificationCompat.InboxStyle()
+                    .setBigContentTitle("Big content title")
+                    .setSummaryText("Big text summary")
+                    .addLine("This is line 1")
+                    .addLine("This is line 2")
+                    .addLine("This is line 3")
+            val notification = NotificationCompat.Builder(context, channel)
+                    .setStyle(style)
+                    .setContentTitle(title)
+                    .setContentText(message)
+                    .setTicker(title) // for legacy Android
+                    .setSmallIcon(R.drawable.ic_notification)
+                    .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher_round))
                     .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                     .setDefaults(Notification.DEFAULT_ALL)
                     .build()

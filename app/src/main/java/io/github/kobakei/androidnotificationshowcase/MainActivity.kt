@@ -20,6 +20,14 @@ class MainActivity : AppCompatActivity() {
             NotificationUtility.showBigPictureNotification(applicationContext, "channel",
                     "This is title", "This is message")
         }
+        buttonBigText.setOnClickListener {
+            NotificationUtility.showBigTextNotification(applicationContext, "channel",
+                    "This is title", "This is message")
+        }
+        buttonInbox.setOnClickListener {
+            NotificationUtility.showInboxNotification(applicationContext, "channel",
+                    "This is title", "This is message")
+        }
     }
 
 }
