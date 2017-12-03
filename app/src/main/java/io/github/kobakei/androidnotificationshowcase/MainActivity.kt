@@ -13,24 +13,34 @@ class MainActivity : AppCompatActivity() {
         NotificationUtility.setUpNotificationChannel(applicationContext)
 
         buttonBasic.setOnClickListener {
-            NotificationUtility.showNotification(applicationContext, "channel",
-                    "This is title", "This is message")
+            NotificationUtility.showNotification(applicationContext)
         }
         buttonAction.setOnClickListener {
-            NotificationUtility.showNotificationWithActions(applicationContext, "channel",
-                    "This is title", "This is message")
+            NotificationUtility.showNotificationWithActions(applicationContext)
         }
         buttonBigPicture.setOnClickListener {
-            NotificationUtility.showBigPictureNotification(applicationContext, "channel",
-                    "This is title", "This is message")
+            NotificationUtility.showBigPictureNotification(applicationContext)
         }
         buttonBigText.setOnClickListener {
-            NotificationUtility.showBigTextNotification(applicationContext, "channel",
-                    "This is title", "This is message")
+            NotificationUtility.showBigTextNotification(applicationContext)
         }
         buttonInbox.setOnClickListener {
-            NotificationUtility.showInboxNotification(applicationContext, "channel",
-                    "This is title", "This is message")
+            NotificationUtility.showInboxNotification(applicationContext)
+        }
+        buttonMessaging.setOnClickListener {
+            NotificationUtility.showMessagingNotification(applicationContext)
+        }
+        buttonDecoratedCustomView.setOnClickListener {
+            NotificationUtility.showDecoratedCustomViewNotification(applicationContext)
+        }
+        buttonHeadUp.setOnClickListener {
+            NotificationUtility.showHeadUpNotification(applicationContext)
+        }
+        buttonLockScreen.setOnClickListener {
+            NotificationUtility.showLockScreenNotification(applicationContext)
+        }
+        buttonBundled.setOnClickListener {
+            NotificationUtility.showBundledNotification(applicationContext)
         }
     }
 

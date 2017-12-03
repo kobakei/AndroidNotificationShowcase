@@ -20,10 +20,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="Basic"
-            android:textAllCaps="false"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/buttonAction"
@@ -32,11 +29,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="Action"
-            android:textAllCaps="false"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:text="Action" />
 
         <Button
             android:id="@+id/buttonBigPicture"
@@ -45,12 +38,8 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="Big picture"
-            android:textAllCaps="false"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/buttonBasic" />
+            android:text="Big picture style"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/buttonBigText"
@@ -59,11 +48,8 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="Big text"
-            android:textAllCaps="false"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/buttonBigPicture" />
+            android:text="Big text style"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/buttonInbox"
@@ -72,11 +58,68 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="Inbox"
-            android:textAllCaps="false"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/buttonBigText" />
+            android:text="Inbox style"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/buttonMedia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Media style"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/buttonMessaging"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Messaging style"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/buttonDecoratedCustomView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Decoreatred custom view style"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/buttonHeadUp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Head up"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/buttonLockScreen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Lock screen"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/buttonBundled"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Bundled"
+            android:textAllCaps="false" />
 
     </LinearLayout>
 
