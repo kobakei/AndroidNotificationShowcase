@@ -16,6 +16,10 @@ class MainActivity : AppCompatActivity() {
             NotificationUtility.showNotification(applicationContext, "channel",
                     "This is title", "This is message")
         }
+        buttonAction.setOnClickListener {
+            NotificationUtility.showNotificationWithActions(applicationContext, "channel",
+                    "This is title", "This is message")
+        }
         buttonBigPicture.setOnClickListener {
             NotificationUtility.showBigPictureNotification(applicationContext, "channel",
                     "This is title", "This is message")

@@ -3,7 +3,9 @@ package io.github.kobakei.androidnotificationshowcase
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.support.v4.app.NotificationCompat
@@ -39,6 +41,31 @@ class NotificationUtility {
                     .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher_round))
                     .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                     .setDefaults(Notification.DEFAULT_ALL)
+                    .build()
+            val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            nm.notify(1, notification)
+        }
+
+        /**
+         * 通知を表示する（アクションあり）
+         */
+        fun showNotificationWithActions(context: Context, channel: String, title: String, message: String) {
+            val doneIntent = Intent(context, MainActivity::class.java)
+            val donePendingIntent = PendingIntent.getActivity(context, 1, doneIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+            val closeIntent = Intent(context, MainActivity::class.java)
+            val closePendingIntent = PendingIntent.getActivity(context, 2, closeIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+            val notification = NotificationCompat.Builder(context, channel)
+                    .setContentTitle(title)
+                    .setContentText(message)
+                    .setTicker(title) // for legacy Android
+                    .setSmallIcon(R.drawable.ic_notification)
+                    .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher_round))
+                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .addAction(R.drawable.ic_action_done, "Done", donePendingIntent)
+                    .addAction(R.drawable.ic_action_close, "Close", closePendingIntent)
                     .build()
             val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             nm.notify(1, notification)
