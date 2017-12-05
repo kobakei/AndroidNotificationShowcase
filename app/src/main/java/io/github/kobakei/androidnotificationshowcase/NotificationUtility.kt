@@ -150,26 +150,26 @@ class NotificationUtility {
             val intent = Intent(context, MainActivity::class.java)
             val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-            val style = NotificationCompat.InboxStyle()
-                    .setBigContentTitle("Big content title")
-                    .setSummaryText("Big text summary")
-                    .addLine("This is line 1")
-                    .addLine("This is line 2")
-                    .addLine("This is line 3")
-
-            val notification = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
+            val builder = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
                     .setContentTitle("This is title")
-                    .setContentText("This is message")
-                    .setTicker("This is ticker") // for legacy Android
-                    .setStyle(style)
+                    .setContentText("This is message") // ICSではこっちが表示される
                     .setSmallIcon(R.drawable.ic_notification)
                     .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher_round))
                     .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setContentIntent(pendingIntent)
-                    .build()
+                    .setAutoCancel(true)
+
+            val style = NotificationCompat.InboxStyle(builder)
+                    .setBigContentTitle("Big content title")
+                    .setSummaryText("Big text summary")
+                    .addLine("This is line 1")
+                    .addLine("This is line 2")
+                    .addLine("This is line 3")
+                    .setSummaryText("This is summary text")
+
             val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            nm.notify(1, notification)
+            nm.notify(1, style.build())
         }
 
         /**
@@ -235,7 +235,7 @@ class NotificationUtility {
                     .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher_round))
                     .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                     .setDefaults(Notification.DEFAULT_ALL)
-                    .setPriority(Notification.PRIORITY_HIGH) // Pre-Oreo: 優先度
+                    .setPriority(Notification.PRIORITY_HIGH) // Pre-Oreo: 優先度を設定しないとHead upにならない
                     .setContentIntent(pendingIntent)
                     .build()
             val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
