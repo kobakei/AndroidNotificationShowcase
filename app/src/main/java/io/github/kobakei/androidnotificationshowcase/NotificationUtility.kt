@@ -282,6 +282,7 @@ class NotificationUtility {
                     .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setContentIntent(pendingIntent)
+                    .setAutoCancel(true) // 重要。各通知がすべて消えた時に、サマリーも自動で消える
                     .build()
 
             val notification1 = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
@@ -294,6 +295,7 @@ class NotificationUtility {
                     .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
                     .build()
 
             val notification2 = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
@@ -306,6 +308,7 @@ class NotificationUtility {
                     .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
                     .build()
 
             val notification3 = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
@@ -318,6 +321,7 @@ class NotificationUtility {
                     .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
                     .build()
 
             val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
