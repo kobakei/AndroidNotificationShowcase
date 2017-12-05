@@ -266,25 +266,33 @@ class NotificationUtility {
 
         /**
          * バンドル通知を表示する
+         * API 24から使える機能。それ以前は個別に通知を出す。
          */
         fun showBundledNotification(context: Context) {
             val intent = Intent(context, MainActivity::class.java)
             val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-            val summaryNotification = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
-                    .setGroupSummary(true)
-                    .setGroup(GROUP_KEY)
-                    .setContentTitle("Head up title")
-                    .setContentText("Head up message")
-                    .setTicker("Head up ticker") // for legacy Android
-                    .setSmallIcon(R.drawable.ic_notification)
-                    .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher_round))
-                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
-                    .setDefaults(Notification.DEFAULT_ALL)
-                    .setContentIntent(pendingIntent)
-                    .setAutoCancel(true) // 重要。各通知がすべて消えた時に、サマリーも自動で消える
-                    .build()
+            val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
+            // サマリーは24以上でしか出さなくていい
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                val summaryNotification = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
+                        .setGroupSummary(true)
+                        .setGroup(GROUP_KEY)
+                        .setContentTitle("Head up title")
+                        .setContentText("Head up message")
+                        .setTicker("Head up ticker") // for legacy Android
+                        .setSmallIcon(R.drawable.ic_notification)
+                        .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher_round))
+                        .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                        .setDefaults(Notification.DEFAULT_ALL)
+                        .setContentIntent(pendingIntent)
+                        .setAutoCancel(true) // 重要。各通知がすべて消えた時に、サマリーも自動で消える
+                        .build()
+                nm.notify(1, summaryNotification)
+            }
+
+            // 各通知は前バージョン共通で出す
             val notification1 = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
                     .setGroup(GROUP_KEY)
                     .setContentTitle("This is title 1")
@@ -324,8 +332,6 @@ class NotificationUtility {
                     .setAutoCancel(true)
                     .build()
 
-            val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            nm.notify(1, summaryNotification)
             nm.notify(2, notification1)
             nm.notify(3, notification2)
             nm.notify(4, notification3)
