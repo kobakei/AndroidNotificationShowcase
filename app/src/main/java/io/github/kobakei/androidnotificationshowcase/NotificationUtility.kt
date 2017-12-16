@@ -18,10 +18,10 @@ import android.support.v4.content.ContextCompat
 class NotificationUtility {
     companion object {
 
-        const val CHANNEL_ID_NORMAL = "channel_01"
-        const val CHANNEL_ID_IMPORTANT = "channel_02"
+        private const val CHANNEL_ID_NORMAL = "channel_01"
+        private const val CHANNEL_ID_IMPORTANT = "channel_02"
 
-        const val GROUP_KEY = "my_group"
+        private const val GROUP_KEY = "my_group"
 
         /**
          * 通知チャンネルを作成する
@@ -54,6 +54,7 @@ class NotificationUtility {
                     .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
                     .build()
             val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             nm.notify(1, notification)
@@ -83,6 +84,7 @@ class NotificationUtility {
                     .setContentIntent(pendingIntent)
                     .addAction(R.drawable.ic_action_done, "Done", donePendingIntent)
                     .addAction(R.drawable.ic_action_close, "Close", closePendingIntent)
+                    .setAutoCancel(true)
                     .build()
             val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             nm.notify(1, notification)
@@ -111,6 +113,7 @@ class NotificationUtility {
                     .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
                     .build()
             val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             nm.notify(1, notification)
@@ -138,6 +141,7 @@ class NotificationUtility {
                     .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
                     .build()
             val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             nm.notify(1, notification)
@@ -191,6 +195,7 @@ class NotificationUtility {
                     .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
                     .build()
             val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             nm.notify(1, notification)
@@ -215,6 +220,7 @@ class NotificationUtility {
                     .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
                     .build()
             val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             nm.notify(1, notification)
@@ -237,6 +243,7 @@ class NotificationUtility {
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setPriority(Notification.PRIORITY_HIGH) // Pre-Oreo: 優先度を設定しないとHead upにならない
                     .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
                     .build()
             val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             nm.notify(1, notification)
@@ -259,6 +266,7 @@ class NotificationUtility {
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setContentIntent(pendingIntent)
                     .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                    .setAutoCancel(true)
                     .build()
             val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             nm.notify(1, notification)
