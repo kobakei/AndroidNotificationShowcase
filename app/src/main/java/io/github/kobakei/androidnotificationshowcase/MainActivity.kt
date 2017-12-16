@@ -30,6 +30,9 @@ class MainActivity : AppCompatActivity() {
         buttonMessaging.setOnClickListener {
             NotificationUtility.showMessagingNotification(applicationContext)
         }
+        buttonCustomView.setOnClickListener {
+            NotificationUtility.showCustomViewNotification(applicationContext)
+        }
         buttonDecoratedCustomView.setOnClickListener {
             NotificationUtility.showDecoratedCustomViewNotification(applicationContext)
         }
