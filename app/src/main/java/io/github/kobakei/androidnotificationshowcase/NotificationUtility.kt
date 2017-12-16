@@ -1,15 +1,15 @@
 package io.github.kobakei.androidnotificationshowcase
 
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.os.Build
 import android.support.v4.app.NotificationCompat
 import android.support.v4.content.ContextCompat
+import android.view.LayoutInflater
+import android.widget.RemoteViews
 
 /**
  * 通知関連のユーティリティ
@@ -208,20 +208,24 @@ class NotificationUtility {
             val intent = Intent(context, MainActivity::class.java)
             val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-            val style = NotificationCompat.DecoratedCustomViewStyle()
+            val customView = RemoteViews(context.packageName, R.layout.custom_layout)
 
-            val notification = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
+            val notificationBuilder = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
                     .setContentTitle("This is title")
                     .setContentText("This is message")
                     .setTicker("This is ticker") // for legacy Android
-                    .setStyle(style)
+                    .setCustomContentView(customView)
                     .setSmallIcon(R.drawable.ic_notification)
                     .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher_round))
                     .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(true)
-                    .build()
+
+            val style = NotificationCompat.DecoratedCustomViewStyle()
+            style.setBuilder(notificationBuilder)
+            val notification = style.build()
+
             val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             nm.notify(1, notification)
         }
@@ -343,6 +347,31 @@ class NotificationUtility {
             nm.notify(2, notification1)
             nm.notify(3, notification2)
             nm.notify(4, notification3)
+        }
+
+        /**
+         * 色付きの通知を作成する
+         */
+        fun createColorizedNotification(service: Service): Notification {
+            val context = service.applicationContext
+            val intent = Intent(context, MainActivity::class.java)
+            val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+            val notification = NotificationCompat.Builder(context, NotificationUtility.CHANNEL_ID_NORMAL)
+                    .setContentTitle("This is title")
+                    .setContentText("This is message")
+                    .setTicker("This is ticker") // for legacy Android
+                    .setSmallIcon(R.drawable.ic_notification)
+                    .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher_round))
+                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
+                    .setColor(Color.GREEN)
+                    .setColorized(true)
+                    .setPriority(Notification.PRIORITY_HIGH)
+                    .build()
+            return notification
         }
     }
 }
