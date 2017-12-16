@@ -7,8 +7,8 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Build
 import android.support.v4.app.NotificationCompat
+import android.support.v4.app.RemoteInput
 import android.support.v4.content.ContextCompat
-import android.view.LayoutInflater
 import android.widget.RemoteViews
 
 /**
@@ -22,6 +22,8 @@ class NotificationUtility {
         private const val CHANNEL_ID_IMPORTANT = "channel_02"
 
         private const val GROUP_KEY = "my_group"
+
+        const val KEY_REMOTE_INPUT = "remote_input"
 
         /**
          * 通知チャンネルを作成する
@@ -251,6 +253,58 @@ class NotificationUtility {
             style.setBuilder(notificationBuilder)
             val notification = style.build()
 
+            val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            nm.notify(1, notification)
+        }
+
+        /**
+         * ダイレクトリプライの通知を表示する
+         */
+        fun showReplyNotification(context: Context) {
+            val remoteInput = RemoteInput.Builder(KEY_REMOTE_INPUT)
+                    .setLabel("Reply Label")
+                    .build()
+
+            val replyIntent = Intent(context, MyBroadcastReceiver::class.java)
+            val replyPendingIntent = PendingIntent.getBroadcast(context, 1001, replyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+            val action = NotificationCompat.Action.Builder(R.drawable.ic_action_reply, "Reply", replyPendingIntent)
+                    .addRemoteInput(remoteInput)
+                    .build()
+
+            val intent = Intent(context, MainActivity::class.java)
+            val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+            val notification = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
+                    .setContentTitle("This is title")
+                    .setContentText("This is message")
+                    .setTicker("This is ticker") // for legacy Android
+                    .setSmallIcon(R.drawable.ic_notification)
+                    .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher_round))
+                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
+                    .addAction(action)
+                    .build()
+            val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            nm.notify(1, notification)
+        }
+
+        fun showRepliedNotification(context: Context) {
+            val intent = Intent(context, MainActivity::class.java)
+            val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+            val notification = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
+                    .setContentTitle("Replied title")
+                    .setContentText("Replied message")
+                    .setTicker("Replied ticker") // for legacy Android
+                    .setSmallIcon(R.drawable.ic_notification)
+                    .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher_round))
+                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
+                    .build()
             val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             nm.notify(1, notification)
         }

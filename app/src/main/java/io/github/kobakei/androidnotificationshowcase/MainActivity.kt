@@ -1,7 +1,13 @@
 package io.github.kobakei.androidnotificationshowcase
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
+import android.support.v4.app.RemoteInput
 import android.support.v7.app.AppCompatActivity
+import android.widget.Toast
 import kotlinx.android.synthetic.main.main_layout.*
 
 class MainActivity : AppCompatActivity() {
@@ -36,6 +42,9 @@ class MainActivity : AppCompatActivity() {
         buttonDecoratedCustomView.setOnClickListener {
             NotificationUtility.showDecoratedCustomViewNotification(applicationContext)
         }
+        buttonReply.setOnClickListener {
+            NotificationUtility.showReplyNotification(applicationContext)
+        }
         buttonHeadUp.setOnClickListener {
             NotificationUtility.showHeadUpNotification(applicationContext)
         }
@@ -50,5 +59,4 @@ class MainActivity : AppCompatActivity() {
             startService(SampleForegroundService.createIntent(applicationContext))
         }
     }
-
 }

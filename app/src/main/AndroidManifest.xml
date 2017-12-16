@@ -21,6 +21,8 @@
         </activity>
 
         <service android:name=".SampleForegroundService"/>
+
+        <receiver android:name=".MyBroadcastReceiver"/>
     </application>
 
 </manifest>
