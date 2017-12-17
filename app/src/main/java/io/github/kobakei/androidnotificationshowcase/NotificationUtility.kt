@@ -186,6 +186,9 @@ class NotificationUtility {
             val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
             val style = NotificationCompat.MessagingStyle("User Name")
+            style.addMessage("Message 1", 1L, "Sender 1")
+            style.addMessage("Message 2", 1L, "Sender 2")
+            style.addMessage("Message 3", 1L, "Sender 3")
 
             val notification = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
                     .setContentTitle("This is title")
