@@ -439,21 +439,19 @@ class NotificationUtility {
             val intent = Intent(context, MainActivity::class.java)
             val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-            val notification = NotificationCompat.Builder(context, NotificationUtility.CHANNEL_ID_NORMAL)
+            return NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
                     .setContentTitle("This is title")
                     .setContentText("This is message")
                     .setTicker("This is ticker") // for legacy Android
                     .setSmallIcon(R.drawable.ic_notification)
                     .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher_round))
-                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(true)
-                    .setColor(Color.GREEN)
+                    .setColor(Color.DKGRAY)
                     .setColorized(true)
                     .setPriority(Notification.PRIORITY_HIGH)
                     .build()
-            return notification
         }
     }
 }
