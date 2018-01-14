@@ -342,16 +342,29 @@ class NotificationUtility {
             val intent = Intent(context, MainActivity::class.java)
             val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-            val notification = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
-                    .setContentTitle("This is title")
-                    .setContentText("This is message")
-                    .setTicker("This is ticker") // for legacy Android
+            val publicNotification = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
+                    .setContentTitle("This is public title")
+                    .setContentText("This is public message")
+                    .setTicker("This is public ticker") // for legacy Android
                     .setSmallIcon(R.drawable.ic_notification)
                     .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher_round))
                     .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setContentIntent(pendingIntent)
                     .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                    .build()
+
+            val notification = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
+                    .setContentTitle("This is private title")
+                    .setContentText("This is private message")
+                    .setTicker("This is private ticker") // for legacy Android
+                    .setSmallIcon(R.drawable.ic_notification)
+                    .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher_round))
+                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .setContentIntent(pendingIntent)
+                    .setVisibility(NotificationCompat.VISIBILITY_PRIVATE) // private: ロック画面に表示するが、表示するのはpubicVersion
+                    .setPublicVersion(publicNotification)
                     .setAutoCancel(true)
                     .build()
             val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

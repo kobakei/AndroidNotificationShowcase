@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.RemoteInput
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
@@ -49,7 +50,9 @@ class MainActivity : AppCompatActivity() {
             NotificationUtility.showHeadUpNotification(applicationContext)
         }
         buttonLockScreen.setOnClickListener {
-            NotificationUtility.showLockScreenNotification(applicationContext)
+            Handler().postDelayed({
+                NotificationUtility.showLockScreenNotification(applicationContext)
+            }, 5000L)
         }
         buttonBundled.setOnClickListener {
             NotificationUtility.showBundledNotification(applicationContext)
