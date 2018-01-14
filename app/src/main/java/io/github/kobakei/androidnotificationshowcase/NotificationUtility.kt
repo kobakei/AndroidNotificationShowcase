@@ -463,7 +463,7 @@ class NotificationUtility {
                     .setAutoCancel(true)
                     .setColor(Color.DKGRAY)
                     .setColorized(true)
-                    .setPriority(Notification.PRIORITY_HIGH)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .build()
         }
     }
