@@ -327,7 +327,7 @@ class NotificationUtility {
                     .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher_round))
                     .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                     .setDefaults(Notification.DEFAULT_ALL)
-                    .setPriority(Notification.PRIORITY_HIGH) // Pre-Oreo: 優先度を設定しないとHead upにならない
+                    .setPriority(NotificationCompat.PRIORITY_HIGH) // Pre-Oreo: 優先度を設定しないとHead upにならない
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(true)
                     .build()
