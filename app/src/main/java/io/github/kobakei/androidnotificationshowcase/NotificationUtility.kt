@@ -337,6 +337,7 @@ class NotificationUtility {
 
         /**
          * ロックスクリーン通知を表示する
+         * 注意: Visibilityは通知チャンネルが優先される
          */
         fun showLockScreenNotification(context: Context) {
             val intent = Intent(context, MainActivity::class.java)
@@ -349,9 +350,6 @@ class NotificationUtility {
                     .setSmallIcon(R.drawable.ic_notification)
                     .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher_round))
                     .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
-                    .setDefaults(Notification.DEFAULT_ALL)
-                    .setContentIntent(pendingIntent)
-                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                     .build()
 
             val notification = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
@@ -364,7 +362,7 @@ class NotificationUtility {
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setContentIntent(pendingIntent)
                     .setVisibility(NotificationCompat.VISIBILITY_PRIVATE) // private: ロック画面に表示するが、表示するのはpubicVersion
-                    .setPublicVersion(publicNotification)
+                    .setPublicVersion(publicNotification) // ロック画面で表示する通知
                     .setAutoCancel(true)
                     .build()
             val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
