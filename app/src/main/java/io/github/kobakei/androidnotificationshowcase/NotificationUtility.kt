@@ -31,9 +31,7 @@ class NotificationUtility {
         fun setUpNotificationChannel(context: Context) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 val channel1 = NotificationChannel(CHANNEL_ID_NORMAL, "普通のチャンネル", NotificationManager.IMPORTANCE_DEFAULT)
-                val channel2 = NotificationChannel(CHANNEL_ID_IMPORTANT, "重要なチャンネル", NotificationManager.IMPORTANCE_DEFAULT).apply {
-                    importance = NotificationManager.IMPORTANCE_HIGH
-                }
+                val channel2 = NotificationChannel(CHANNEL_ID_IMPORTANT, "重要なチャンネル", NotificationManager.IMPORTANCE_HIGH)
                 val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
                 nm.createNotificationChannel(channel1)
                 nm.createNotificationChannel(channel2)
