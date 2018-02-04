@@ -262,18 +262,26 @@ class NotificationUtility {
          * ダイレクトリプライの通知を表示する
          */
         fun showReplyNotification(context: Context) {
-            val remoteInput = RemoteInput.Builder(KEY_REMOTE_INPUT)
-                    .setLabel("Reply Label")
-                    .build()
-
-            val replyIntent = Intent(context, MyBroadcastReceiver::class.java)
-            val replyPendingIntent = PendingIntent.getBroadcast(context, 1001, replyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-            val action = NotificationCompat.Action.Builder(R.drawable.ic_action_reply, "Reply", replyPendingIntent)
-                    .addRemoteInput(remoteInput)
-                    .build()
-
             val intent = Intent(context, MainActivity::class.java)
             val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+            val action: NotificationCompat.Action
+
+            // API 24以降のみなので、分岐する
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                val remoteInput = RemoteInput.Builder(KEY_REMOTE_INPUT)
+                        .setLabel("Reply Label")
+                        .build()
+
+                val replyIntent = Intent(context, MyBroadcastReceiver::class.java)
+                val replyPendingIntent = PendingIntent.getBroadcast(context, 1001, replyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+                action = NotificationCompat.Action.Builder(R.drawable.ic_action_reply, "Reply", replyPendingIntent)
+                        .addRemoteInput(remoteInput)
+                        .build()
+            } else {
+                action = NotificationCompat.Action.Builder(R.drawable.ic_action_reply, "Reply", pendingIntent)
+                        .build()
+            }
 
             val notification = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
                     .setContentTitle("This is title")
