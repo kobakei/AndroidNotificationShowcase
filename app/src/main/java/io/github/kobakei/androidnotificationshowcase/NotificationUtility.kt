@@ -265,21 +265,19 @@ class NotificationUtility {
             val intent = Intent(context, MainActivity::class.java)
             val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-            val action: NotificationCompat.Action
-
             // API 24以降のみなので、分岐する
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            val action = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 val remoteInput = RemoteInput.Builder(KEY_REMOTE_INPUT)
                         .setLabel("Reply Label")
                         .build()
 
                 val replyIntent = Intent(context, MyBroadcastReceiver::class.java)
                 val replyPendingIntent = PendingIntent.getBroadcast(context, 1001, replyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-                action = NotificationCompat.Action.Builder(R.drawable.ic_action_reply, "Reply", replyPendingIntent)
+                NotificationCompat.Action.Builder(R.drawable.ic_action_reply, "Reply", replyPendingIntent)
                         .addRemoteInput(remoteInput)
                         .build()
             } else {
-                action = NotificationCompat.Action.Builder(R.drawable.ic_action_reply, "Reply", pendingIntent)
+                NotificationCompat.Action.Builder(R.drawable.ic_action_reply, "Reply", pendingIntent)
                         .build()
             }
 
@@ -390,9 +388,9 @@ class NotificationUtility {
                 val summaryNotification = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
                         .setGroupSummary(true)
                         .setGroup(GROUP_KEY)
-                        .setContentTitle("Head up title")
-                        .setContentText("Head up message")
-                        .setTicker("Head up ticker") // for legacy Android
+                        .setContentTitle("Summary title")
+                        .setContentText("Summary message")
+                        .setTicker("Summary ticker") // for legacy Android
                         .setSmallIcon(R.drawable.ic_notification)
                         .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher_round))
                         .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
