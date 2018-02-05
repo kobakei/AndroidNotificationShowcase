@@ -61,8 +61,10 @@ class MainActivity : AppCompatActivity() {
             NotificationUtility.showBundledNotification(applicationContext)
         }
         buttonColorized.setOnClickListener {
-            //NotificationUtility.showColorizedNotification(applicationContext)
             startService(SampleForegroundService.createIntent(applicationContext))
+        }
+        buttonColorized2.setOnClickListener {
+            startService(SampleForegroundService2.createIntent(applicationContext))
         }
     }
 }

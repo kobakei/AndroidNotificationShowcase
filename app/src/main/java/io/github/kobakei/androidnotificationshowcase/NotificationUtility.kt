@@ -493,5 +493,28 @@ class NotificationUtility {
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .build()
         }
+
+        /**
+         * 色付きの通知を作成する
+         */
+        fun createColorizedNotification2(service: Service): Notification {
+            val context = service.applicationContext
+            val intent = Intent(context, MainActivity::class.java)
+            val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+            return NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
+                    .setContentTitle("This is title")
+                    .setContentText("This is message")
+                    .setTicker("This is ticker") // for legacy Android
+                    .setSmallIcon(R.drawable.ic_notification)
+                    .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher_round))
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
+                    .setColor(Color.CYAN)
+                    .setColorized(true)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .build()
+        }
     }
 }
