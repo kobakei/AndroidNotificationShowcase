@@ -217,6 +217,31 @@ class NotificationUtility {
                     .setContentTitle("This is title")
                     .setContentText("This is message")
                     .setTicker("This is ticker") // for legacy Android
+                    .setContent(customView)
+                    .setSmallIcon(R.drawable.ic_notification)
+                    .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher_round))
+                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
+
+            val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            nm.notify(1, notificationBuilder.build())
+        }
+
+        /**
+         * Custom viewの通知を表示する (API 24~)
+         */
+        fun showCustomViewNotification2(context: Context) {
+            val intent = Intent(context, MainActivity::class.java)
+            val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+            val customView = RemoteViews(context.packageName, R.layout.custom_layout)
+
+            val notificationBuilder = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
+                    .setContentTitle("This is title")
+                    .setContentText("This is message")
+                    .setTicker("This is ticker") // for legacy Android
                     .setCustomContentView(customView)
                     .setSmallIcon(R.drawable.ic_notification)
                     .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher_round))
