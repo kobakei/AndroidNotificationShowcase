@@ -163,17 +163,16 @@ class NotificationUtility {
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(true)
-
-            val style = NotificationCompat.InboxStyle(builder)
-                    .setBigContentTitle("Big content title")
-                    .setSummaryText("Big text summary")
-                    .addLine("This is line 1")
-                    .addLine("This is line 2")
-                    .addLine("This is line 3")
-                    .setSummaryText("This is summary text")
+                    .setStyle(NotificationCompat.InboxStyle()
+                            .setBigContentTitle("Big content title")
+                            .setSummaryText("Big text summary")
+                            .addLine("This is line 1")
+                            .addLine("This is line 2")
+                            .addLine("This is line 3")
+                            .setSummaryText("This is summary text"))
 
             val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            nm.notify(1, style.build())
+            nm.notify(1, builder.build())
         }
 
         /**
@@ -304,13 +303,41 @@ class NotificationUtility {
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(true)
-
-            val style = NotificationCompat.DecoratedCustomViewStyle()
-            style.setBuilder(notificationBuilder)
-            val notification = style.build()
+                    .setStyle(NotificationCompat.DecoratedCustomViewStyle())
 
             val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            nm.notify(1, notification)
+            nm.notify(1, notificationBuilder.build())
+        }
+
+        /**
+         * DecoratedMediaCustomViewスタイルの通知を表示する
+         */
+        fun showDecoratedMediaNotification(context: Context) {
+            val intent = Intent(context, MainActivity::class.java)
+            val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+            val customView = RemoteViews(context.packageName, R.layout.custom_layout)
+
+            val builder = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
+                    .setSmallIcon(R.drawable.ic_notification)
+                    .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher_round)) // アートワーク
+                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                    .setContentIntent(pendingIntent)
+                    .setCustomContentView(customView)
+                    .setStyle(android.support.v4.media.app.NotificationCompat.DecoratedMediaCustomViewStyle()
+                            .setShowActionsInCompactView(0, 2, 4)
+                            .setShowCancelButton(true)
+                            .setCancelButtonIntent(pendingIntent)
+                            //.setMediaSession(session) // 本当はここでMediaSessionをセットする
+                    )
+                    .addAction(R.drawable.ic_action_done, "Done", pendingIntent)
+                    .addAction(R.drawable.ic_action_done, "Done", pendingIntent)
+                    .addAction(R.drawable.ic_action_done, "Done", pendingIntent)
+                    .addAction(R.drawable.ic_action_done, "Done", pendingIntent)
+                    .addAction(R.drawable.ic_action_done, "Done", pendingIntent) // アクションは最大5個まで
+
+            val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            nm.notify(1, builder.build())
         }
 
         /**
@@ -350,37 +377,6 @@ class NotificationUtility {
                     .build()
             val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             nm.notify(1, notification)
-        }
-
-        /**
-         * DecoratedMediaCustomViewスタイルの通知を表示する
-         */
-        fun showDecoratedMediaNotification(context: Context) {
-            val intent = Intent(context, MainActivity::class.java)
-            val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-
-            val customView = RemoteViews(context.packageName, R.layout.custom_layout)
-
-            val builder = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
-                    .setSmallIcon(R.drawable.ic_notification)
-                    .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher_round)) // アートワーク
-                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
-                    .setContentIntent(pendingIntent)
-                    .setCustomContentView(customView)
-                    .setStyle(android.support.v4.media.app.NotificationCompat.DecoratedMediaCustomViewStyle()
-                            .setShowActionsInCompactView(0, 2, 4)
-                            .setShowCancelButton(true)
-                            .setCancelButtonIntent(pendingIntent)
-                            //.setMediaSession(session) // 本当はここでMediaSessionをセットする
-                    )
-                    .addAction(R.drawable.ic_action_done, "Done", pendingIntent)
-                    .addAction(R.drawable.ic_action_done, "Done", pendingIntent)
-                    .addAction(R.drawable.ic_action_done, "Done", pendingIntent)
-                    .addAction(R.drawable.ic_action_done, "Done", pendingIntent)
-                    .addAction(R.drawable.ic_action_done, "Done", pendingIntent) // アクションは最大5個まで
-
-            val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            nm.notify(1, builder.build())
         }
 
         fun showRepliedNotification(context: Context) {
