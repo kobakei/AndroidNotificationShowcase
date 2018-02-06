@@ -177,6 +177,36 @@ class NotificationUtility {
         }
 
         /**
+         * Mediaスタイルの通知を表示する
+         */
+        fun showMediaNotification(context: Context) {
+            val intent = Intent(context, MainActivity::class.java)
+            val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+            val builder = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
+                    .setContentTitle("This is title")
+                    .setContentText("This is message")
+                    .setSmallIcon(R.drawable.ic_notification)
+                    .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher_round)) // アートワーク
+                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                    .setContentIntent(pendingIntent)
+                    .setStyle(android.support.v4.media.app.NotificationCompat.MediaStyle()
+                            .setShowActionsInCompactView(0, 2, 4)
+                            .setShowCancelButton(true)
+                            .setCancelButtonIntent(pendingIntent)
+                            //.setMediaSession(session) // 本当はここでMediaSessionをセットする
+                    )
+                    .addAction(R.drawable.ic_action_done, "Done", pendingIntent)
+                    .addAction(R.drawable.ic_action_done, "Done", pendingIntent)
+                    .addAction(R.drawable.ic_action_done, "Done", pendingIntent)
+                    .addAction(R.drawable.ic_action_done, "Done", pendingIntent)
+                    .addAction(R.drawable.ic_action_done, "Done", pendingIntent) // アクションは最大5個まで
+
+            val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            nm.notify(1, builder.build())
+        }
+
+        /**
          * Messagingスタイルの通知を表示する
          */
         fun showMessagingNotification(context: Context) {
@@ -320,6 +350,37 @@ class NotificationUtility {
                     .build()
             val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             nm.notify(1, notification)
+        }
+
+        /**
+         * DecoratedMediaCustomViewスタイルの通知を表示する
+         */
+        fun showDecoratedMediaNotification(context: Context) {
+            val intent = Intent(context, MainActivity::class.java)
+            val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+            val customView = RemoteViews(context.packageName, R.layout.custom_layout)
+
+            val builder = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
+                    .setSmallIcon(R.drawable.ic_notification)
+                    .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher_round)) // アートワーク
+                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                    .setContentIntent(pendingIntent)
+                    .setCustomContentView(customView)
+                    .setStyle(android.support.v4.media.app.NotificationCompat.DecoratedMediaCustomViewStyle()
+                            .setShowActionsInCompactView(0, 2, 4)
+                            .setShowCancelButton(true)
+                            .setCancelButtonIntent(pendingIntent)
+                            //.setMediaSession(session) // 本当はここでMediaSessionをセットする
+                    )
+                    .addAction(R.drawable.ic_action_done, "Done", pendingIntent)
+                    .addAction(R.drawable.ic_action_done, "Done", pendingIntent)
+                    .addAction(R.drawable.ic_action_done, "Done", pendingIntent)
+                    .addAction(R.drawable.ic_action_done, "Done", pendingIntent)
+                    .addAction(R.drawable.ic_action_done, "Done", pendingIntent) // アクションは最大5個まで
+
+            val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            nm.notify(1, builder.build())
         }
 
         fun showRepliedNotification(context: Context) {

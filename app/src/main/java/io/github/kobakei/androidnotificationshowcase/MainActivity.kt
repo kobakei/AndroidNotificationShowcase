@@ -34,6 +34,9 @@ class MainActivity : AppCompatActivity() {
         buttonInbox.setOnClickListener {
             NotificationUtility.showInboxNotification(applicationContext)
         }
+        buttonMedia.setOnClickListener {
+            NotificationUtility.showMediaNotification(applicationContext)
+        }
         buttonMessaging.setOnClickListener {
             NotificationUtility.showMessagingNotification(applicationContext)
         }
@@ -45,6 +48,9 @@ class MainActivity : AppCompatActivity() {
         }
         buttonDecoratedCustomView.setOnClickListener {
             NotificationUtility.showDecoratedCustomViewNotification(applicationContext)
+        }
+        buttonDecoratedMedia.setOnClickListener {
+            NotificationUtility.showDecoratedMediaNotification(applicationContext)
         }
         buttonReply.setOnClickListener {
             NotificationUtility.showReplyNotification(applicationContext)
