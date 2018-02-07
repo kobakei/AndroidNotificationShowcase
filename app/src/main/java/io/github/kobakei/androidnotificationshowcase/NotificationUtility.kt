@@ -609,32 +609,13 @@ class NotificationUtility {
 
         private fun downloadImage(address: String): Bitmap? {
             var bmp: Bitmap? = null
-
-            val result = StringBuilder()
-
             var urlConnection: HttpURLConnection? = null
-
             try {
                 val url = URL(address)
-
-                // HttpURLConnection インスタンス生成
                 urlConnection = url.openConnection() as HttpURLConnection
-
-                // タイムアウト設定
-                urlConnection.readTimeout = 10000
-                urlConnection.connectTimeout = 20000
-
-                // リクエストメソッド
                 urlConnection.requestMethod = "GET"
-
-                // ヘッダーの設定(複数設定可能)
-                urlConnection.setRequestProperty("Accept-Language", "jp")
-
-                // 接続
                 urlConnection.connect()
-
                 val resp = urlConnection.responseCode
-
                 when (resp) {
                     HttpURLConnection.HTTP_OK -> {
                         var inputStream: InputStream? = null
