@@ -1,14 +1,8 @@
 package io.github.kobakei.androidnotificationshowcase
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import android.os.Bundle
 import android.os.Handler
-import android.support.v4.app.RemoteInput
 import android.support.v7.app.AppCompatActivity
-import android.widget.Toast
 import kotlinx.android.synthetic.main.main_layout.*
 
 class MainActivity : AppCompatActivity() {
@@ -21,6 +15,14 @@ class MainActivity : AppCompatActivity() {
 
         buttonBasic.setOnClickListener {
             NotificationUtility.showNotification(applicationContext)
+        }
+        buttonLargeIcon.setOnClickListener {
+            val thread = object : Thread() {
+                override fun run() {
+                    NotificationUtility.showLargeIconNotification(applicationContext)
+                }
+            }
+            thread.start()
         }
         buttonAction.setOnClickListener {
             NotificationUtility.showNotificationWithActions(applicationContext)

@@ -10,6 +10,13 @@ import android.support.v4.app.NotificationCompat
 import android.support.v4.app.RemoteInput
 import android.support.v4.content.ContextCompat
 import android.widget.RemoteViews
+import android.graphics.Bitmap
+import android.util.Log
+import java.io.IOException
+import java.io.InputStream
+import java.net.HttpURLConnection
+import java.net.URL
+
 
 /**
  * 通知関連のユーティリティ
@@ -50,7 +57,33 @@ class NotificationUtility {
                     .setContentText("This is message")
                     .setTicker("This is ticker") // for legacy Android
                     .setSmallIcon(R.drawable.ic_notification)
-                    .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher_round))
+                    //.setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher))
+                    //.setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.ic_action_done))
+                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
+                    .build()
+            val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            nm.notify(1, notification)
+        }
+
+        /**
+         * large iconつき通知を表示する
+         * 本当はserviceとかで表示する
+         */
+        fun showLargeIconNotification(context: Context) {
+            val largeIcon = downloadImage("https://secure.gravatar.com/avatar/cb416191cec5f85bd2ee7c56662f60e0")
+
+            val intent = Intent(context, MainActivity::class.java)
+            val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+            val notification = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
+                    .setContentTitle("This is title")
+                    .setContentText("This is message")
+                    .setTicker("This is ticker") // for legacy Android
+                    .setSmallIcon(R.drawable.ic_notification)
+                    .setLargeIcon(largeIcon)
                     .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setContentIntent(pendingIntent)
@@ -572,6 +605,66 @@ class NotificationUtility {
                     .setColorized(true)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .build()
+        }
+
+        private fun downloadImage(address: String): Bitmap? {
+            var bmp: Bitmap? = null
+
+            val result = StringBuilder()
+
+            var urlConnection: HttpURLConnection? = null
+
+            try {
+                val url = URL(address)
+
+                // HttpURLConnection インスタンス生成
+                urlConnection = url.openConnection() as HttpURLConnection
+
+                // タイムアウト設定
+                urlConnection.readTimeout = 10000
+                urlConnection.connectTimeout = 20000
+
+                // リクエストメソッド
+                urlConnection.requestMethod = "GET"
+
+                // ヘッダーの設定(複数設定可能)
+                urlConnection.setRequestProperty("Accept-Language", "jp")
+
+                // 接続
+                urlConnection.connect()
+
+                val resp = urlConnection.responseCode
+
+                when (resp) {
+                    HttpURLConnection.HTTP_OK -> {
+                        var inputStream: InputStream? = null
+                        try {
+                            inputStream = urlConnection.inputStream
+                            bmp = BitmapFactory.decodeStream(inputStream)
+                            inputStream!!.close()
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                        } finally {
+                            if (inputStream != null) {
+                                inputStream.close()
+                            }
+                        }
+                    }
+                    HttpURLConnection.HTTP_UNAUTHORIZED -> {
+                    }
+                    else -> {
+                    }
+                }
+            } catch (e: Exception) {
+                Log.d("debug", "downloadImage error")
+                e.printStackTrace()
+            } finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect()
+                }
+            }
+
+            return bmp
         }
     }
 }
