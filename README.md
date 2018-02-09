@@ -4,6 +4,24 @@
 
 DroidKaigi 2018の講演[「開発者が知っておきたい通知の歴史」](https://speakerdeck.com/kobakei/kai-fa-zhe-gazhi-tuteokitaitong-zhi-falseli-shi)のサンプルコードです。
 
+## Features
+
+- Notification channel
+- Action
+  - Direct reply
+- Style
+  - BigText
+  - BigPicture
+  - Media
+  - Inbox
+  - Messaging
+  - DecoratedCustomView
+  - DecoratedMediaCustomView
+- Head up
+- Lock screen
+- Bundled notifications
+- Colorized
+
 ## License
 
 ```
