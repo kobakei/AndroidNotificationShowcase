@@ -403,8 +403,9 @@ class NotificationUtility {
             // API 24以降のみなので、分岐する
             val action = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 val remoteInput = RemoteInput.Builder(KEY_REMOTE_INPUT)
-                        .setLabel("Reply Label")
-                        .build()
+                    .setLabel("Reply Label")
+                    .setChoices(arrayOf("😀", "😎", "😇"))
+                    .build()
 
                 val replyIntent = Intent(context, MyBroadcastReceiver::class.java)
                 val replyPendingIntent = PendingIntent.getBroadcast(context, 1001, replyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
