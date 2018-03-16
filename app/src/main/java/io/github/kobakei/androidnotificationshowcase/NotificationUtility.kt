@@ -25,8 +25,13 @@ import java.net.URL
 class NotificationUtility {
     companion object {
 
-        private const val CHANNEL_ID_NORMAL = "channel_01"
-        private const val CHANNEL_ID_IMPORTANT = "channel_02"
+        private const val GROUP_ID_1 = "group_1"
+        private const val GROUP_ID_2 = "group_2"
+
+        private const val CHANNEL_ID_1_1 = "channel_1_1"
+        private const val CHANNEL_ID_1_2 = "channel_1_2"
+        private const val CHANNEL_ID_2_1 = "channel_2_1"
+        private const val CHANNEL_ID_2_2 = "channel_2_2"
 
         private const val GROUP_KEY = "my_group"
 
@@ -37,11 +42,26 @@ class NotificationUtility {
          */
         fun setUpNotificationChannel(context: Context) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val channel1 = NotificationChannel(CHANNEL_ID_NORMAL, "普通のチャンネル", NotificationManager.IMPORTANCE_DEFAULT)
-                val channel2 = NotificationChannel(CHANNEL_ID_IMPORTANT, "重要なチャンネル", NotificationManager.IMPORTANCE_HIGH)
+                val group1 = NotificationChannelGroup(GROUP_ID_1, "グループ1")
+                val group2 = NotificationChannelGroup(GROUP_ID_2, "グループ2")
+
+                val channel11 = NotificationChannel(CHANNEL_ID_1_1, "チャンネル1-1", NotificationManager.IMPORTANCE_DEFAULT).apply {
+                    group = GROUP_ID_1
+                }
+                val channel12 = NotificationChannel(CHANNEL_ID_1_2, "チャンネル1-2", NotificationManager.IMPORTANCE_HIGH).apply {
+                    group = GROUP_ID_1
+                }
+
+                val channel21 = NotificationChannel(CHANNEL_ID_2_1, "チャンネル2-1", NotificationManager.IMPORTANCE_DEFAULT).apply {
+                    group = GROUP_ID_2
+                }
+                val channel22 = NotificationChannel(CHANNEL_ID_2_2, "チャンネル2-2", NotificationManager.IMPORTANCE_HIGH).apply {
+                    group = GROUP_ID_2
+                }
+
                 val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-                nm.createNotificationChannel(channel1)
-                nm.createNotificationChannel(channel2)
+                nm.createNotificationChannelGroups(listOf(group1, group2))
+                nm.createNotificationChannels(listOf(channel11, channel12, channel21, channel22))
             }
         }
 
@@ -52,7 +72,7 @@ class NotificationUtility {
             val intent = Intent(context, MainActivity::class.java)
             val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-            val notification = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
+            val notification = NotificationCompat.Builder(context, CHANNEL_ID_1_1)
                     .setContentTitle("This is title")
                     .setContentText("This is message")
                     .setTicker("This is ticker") // for legacy Android
@@ -78,7 +98,7 @@ class NotificationUtility {
             val intent = Intent(context, MainActivity::class.java)
             val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-            val notification = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
+            val notification = NotificationCompat.Builder(context, CHANNEL_ID_1_1)
                     .setContentTitle("This is title")
                     .setContentText("This is message")
                     .setTicker("This is ticker") // for legacy Android
@@ -106,7 +126,7 @@ class NotificationUtility {
             val closeIntent = Intent(context, MainActivity::class.java)
             val closePendingIntent = PendingIntent.getActivity(context, 2, closeIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-            val notification = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
+            val notification = NotificationCompat.Builder(context, CHANNEL_ID_1_1)
                     .setContentTitle("This is title")
                     .setContentText("This is message")
                     .setTicker("This is ticker") // for legacy Android
@@ -136,7 +156,7 @@ class NotificationUtility {
                     .setSummaryText("Summary text")
                     .bigPicture(bitmap)
 
-            val notification = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
+            val notification = NotificationCompat.Builder(context, CHANNEL_ID_1_1)
                     .setContentTitle("This is title")
                     .setContentText("This is message")
                     .setTicker("This is ticker") // for legacy Android
@@ -164,7 +184,7 @@ class NotificationUtility {
                     .setSummaryText("Big text summary")
                     .bigText("This is long text. This is long text. This is long text. This is long text. This is long text.")
 
-            val notification = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
+            val notification = NotificationCompat.Builder(context, CHANNEL_ID_1_1)
                     //.setContentTitle("This is title")
                     //.setContentText("This is message")
                     //.setTicker("This is ticker") // for legacy Android
@@ -187,7 +207,7 @@ class NotificationUtility {
             val intent = Intent(context, MainActivity::class.java)
             val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-            val builder = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
+            val builder = NotificationCompat.Builder(context, CHANNEL_ID_1_1)
                     .setContentTitle("This is title")
                     .setContentText("This is message") // ICSではこっちが表示される
                     .setSmallIcon(R.drawable.ic_notification)
@@ -215,7 +235,7 @@ class NotificationUtility {
             val intent = Intent(context, MainActivity::class.java)
             val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-            val builder = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
+            val builder = NotificationCompat.Builder(context, CHANNEL_ID_1_1)
                     .setContentTitle("This is title")
                     .setContentText("This is message")
                     .setSmallIcon(R.drawable.ic_notification)
@@ -250,7 +270,7 @@ class NotificationUtility {
             style.addMessage("Message 2", 1L, "Sender 2")
             style.addMessage("Message 3", 1L, "Sender 3")
 
-            val notification = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
+            val notification = NotificationCompat.Builder(context, CHANNEL_ID_1_1)
                     .setContentTitle("This is title")
                     .setContentText("This is message")
                     .setTicker("This is ticker") // for legacy Android
@@ -275,7 +295,7 @@ class NotificationUtility {
 
             val customView = RemoteViews(context.packageName, R.layout.custom_layout)
 
-            val notificationBuilder = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
+            val notificationBuilder = NotificationCompat.Builder(context, CHANNEL_ID_1_1)
                     .setContentTitle("This is title")
                     .setContentText("This is message")
                     .setTicker("This is ticker") // for legacy Android
@@ -300,7 +320,7 @@ class NotificationUtility {
 
             val customView = RemoteViews(context.packageName, R.layout.custom_layout)
 
-            val notificationBuilder = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
+            val notificationBuilder = NotificationCompat.Builder(context, CHANNEL_ID_1_1)
                     .setContentTitle("This is title")
                     .setContentText("This is message")
                     .setTicker("This is ticker") // for legacy Android
@@ -325,7 +345,7 @@ class NotificationUtility {
 
             val customView = RemoteViews(context.packageName, R.layout.custom_layout)
 
-            val notificationBuilder = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
+            val notificationBuilder = NotificationCompat.Builder(context, CHANNEL_ID_1_1)
                     .setContentTitle("This is title")
                     .setContentText("This is message")
                     .setTicker("This is ticker") // for legacy Android
@@ -351,7 +371,7 @@ class NotificationUtility {
 
             val customView = RemoteViews(context.packageName, R.layout.custom_layout)
 
-            val builder = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
+            val builder = NotificationCompat.Builder(context, CHANNEL_ID_1_1)
                     .setSmallIcon(R.drawable.ic_notification)
                     .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher_round)) // アートワーク
                     .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
@@ -396,7 +416,7 @@ class NotificationUtility {
                         .build()
             }
 
-            val notification = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
+            val notification = NotificationCompat.Builder(context, CHANNEL_ID_1_1)
                     .setContentTitle("This is title")
                     .setContentText("This is message")
                     .setTicker("This is ticker") // for legacy Android
@@ -416,7 +436,7 @@ class NotificationUtility {
             val intent = Intent(context, MainActivity::class.java)
             val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-            val notification = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
+            val notification = NotificationCompat.Builder(context, CHANNEL_ID_1_1)
                     .setContentTitle("Replied title")
                     .setContentText("Replied message")
                     .setTicker("Replied ticker") // for legacy Android
@@ -438,7 +458,7 @@ class NotificationUtility {
             val intent = Intent(context, MainActivity::class.java)
             val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-            val notification = NotificationCompat.Builder(context, CHANNEL_ID_IMPORTANT) // Oreo: チャンネルの重要度
+            val notification = NotificationCompat.Builder(context, CHANNEL_ID_1_2) // Oreo: チャンネルの重要度
                     .setContentTitle("Head up title")
                     .setContentText("Head up message")
                     .setTicker("Head up ticker") // for legacy Android
@@ -462,7 +482,7 @@ class NotificationUtility {
             val intent = Intent(context, MainActivity::class.java)
             val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-            val publicNotification = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
+            val publicNotification = NotificationCompat.Builder(context, CHANNEL_ID_1_1)
                     .setContentTitle("This is public title")
                     .setContentText("This is public message")
                     .setTicker("This is public ticker") // for legacy Android
@@ -471,7 +491,7 @@ class NotificationUtility {
                     .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                     .build()
 
-            val notification = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
+            val notification = NotificationCompat.Builder(context, CHANNEL_ID_1_1)
                     .setContentTitle("This is private title")
                     .setContentText("This is private message")
                     .setTicker("This is private ticker") // for legacy Android
@@ -500,7 +520,7 @@ class NotificationUtility {
 
             // サマリーは24以上でしか出さなくていい
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                val summaryNotification = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
+                val summaryNotification = NotificationCompat.Builder(context, CHANNEL_ID_1_1)
                         .setGroupSummary(true)
                         .setGroup(GROUP_KEY)
                         .setContentTitle("Summary title")
@@ -517,7 +537,7 @@ class NotificationUtility {
             }
 
             // 各通知は前バージョン共通で出す
-            val notification1 = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
+            val notification1 = NotificationCompat.Builder(context, CHANNEL_ID_1_1)
                     .setGroup(GROUP_KEY)
                     .setContentTitle("This is title 1")
                     .setContentText("This is message 1")
@@ -530,7 +550,7 @@ class NotificationUtility {
                     .setAutoCancel(true)
                     .build()
 
-            val notification2 = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
+            val notification2 = NotificationCompat.Builder(context, CHANNEL_ID_1_1)
                     .setGroup(GROUP_KEY)
                     .setContentTitle("This is title 2")
                     .setContentText("This is message 2")
@@ -543,7 +563,7 @@ class NotificationUtility {
                     .setAutoCancel(true)
                     .build()
 
-            val notification3 = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
+            val notification3 = NotificationCompat.Builder(context, CHANNEL_ID_1_1)
                     .setGroup(GROUP_KEY)
                     .setContentTitle("This is title 3")
                     .setContentText("This is message 3")
@@ -569,7 +589,7 @@ class NotificationUtility {
             val intent = Intent(context, MainActivity::class.java)
             val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-            return NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
+            return NotificationCompat.Builder(context, CHANNEL_ID_1_1)
                     .setContentTitle("This is title")
                     .setContentText("This is message")
                     .setTicker("This is ticker") // for legacy Android
@@ -592,7 +612,7 @@ class NotificationUtility {
             val intent = Intent(context, MainActivity::class.java)
             val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-            return NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
+            return NotificationCompat.Builder(context, CHANNEL_ID_1_1)
                     .setContentTitle("This is title")
                     .setContentText("This is message")
                     .setTicker("This is ticker") // for legacy Android
