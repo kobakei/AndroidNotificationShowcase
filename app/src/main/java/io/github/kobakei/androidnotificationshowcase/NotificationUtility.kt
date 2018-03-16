@@ -165,12 +165,12 @@ class NotificationUtility {
                     .bigText("This is long text. This is long text. This is long text. This is long text. This is long text.")
 
             val notification = NotificationCompat.Builder(context, CHANNEL_ID_NORMAL)
-                    .setContentTitle("This is title")
-                    .setContentText("This is message")
-                    .setTicker("This is ticker") // for legacy Android
+                    //.setContentTitle("This is title")
+                    //.setContentText("This is message")
+                    //.setTicker("This is ticker") // for legacy Android
                     .setStyle(style)
                     .setSmallIcon(R.drawable.ic_notification)
-                    .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher_round))
+                    //.setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher_round))
                     .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setContentIntent(pendingIntent)
