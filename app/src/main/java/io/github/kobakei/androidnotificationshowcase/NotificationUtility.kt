@@ -433,6 +433,46 @@ class NotificationUtility {
             nm.notify(1, notification)
         }
 
+        /**
+         * ダイレクトリプライの通知を表示する(Android P)
+         */
+        fun showReplyNotificationForP(context: Context) {
+            val intent = Intent(context, MainActivity::class.java)
+            val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+            // API 24以降のみなので、分岐する
+            val action = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                val remoteInput = RemoteInput.Builder(KEY_REMOTE_INPUT)
+                        .setLabel("Reply Label")
+                        .setChoices(arrayOf("😀", "😎", "😇"))
+                        .build()
+
+                val replyIntent = Intent(context, MyBroadcastReceiver::class.java)
+                val replyPendingIntent = PendingIntent.getBroadcast(context, 1001, replyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+                NotificationCompat.Action.Builder(R.drawable.ic_action_reply, "Reply", replyPendingIntent)
+                        .addRemoteInput(remoteInput)
+                        .build()
+            } else {
+                NotificationCompat.Action.Builder(R.drawable.ic_action_reply, "Reply", pendingIntent)
+                        .build()
+            }
+
+            val notification = NotificationCompat.Builder(context, CHANNEL_ID_1_1)
+                    .setContentTitle("This is title")
+                    .setContentText("This is message")
+                    .setTicker("This is ticker") // for legacy Android
+                    .setSmallIcon(R.drawable.ic_notification)
+                    .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher_round))
+                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
+                    .addAction(action)
+                    .build()
+            val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            nm.notify(1, notification)
+        }
+
         fun showRepliedNotification(context: Context) {
             val intent = Intent(context, MainActivity::class.java)
             val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)

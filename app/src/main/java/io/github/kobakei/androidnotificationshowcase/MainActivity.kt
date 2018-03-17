@@ -1,8 +1,13 @@
 package io.github.kobakei.androidnotificationshowcase
 
+import android.app.Notification
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.support.v4.app.NotificationCompat
 import android.support.v7.app.AppCompatActivity
+import android.widget.Toast
 import kotlinx.android.synthetic.main.main_layout.*
 
 class MainActivity : AppCompatActivity() {
@@ -57,6 +62,9 @@ class MainActivity : AppCompatActivity() {
         buttonReply.setOnClickListener {
             NotificationUtility.showReplyNotification(applicationContext)
         }
+        buttonReply2.setOnClickListener {
+            NotificationUtility.showReplyNotificationForP(applicationContext)
+        }
         buttonHeadUp.setOnClickListener {
             NotificationUtility.showHeadUpNotification(applicationContext)
         }
@@ -73,6 +81,15 @@ class MainActivity : AppCompatActivity() {
         }
         buttonColorized2.setOnClickListener {
             startService(SampleForegroundService2.createIntent(applicationContext))
+        }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            val draft = intent?.getStringExtra(Notification.EXTRA_REMOTE_INPUT_DRAFT)
+            Toast.makeText(this, "Draft: $draft", Toast.LENGTH_SHORT).show()
         }
     }
 }
