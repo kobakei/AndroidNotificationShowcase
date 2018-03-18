@@ -454,30 +454,37 @@ class NotificationUtility {
 
             val replyIntent = Intent(context, MyBroadcastReceiver::class.java)
             val replyPendingIntent = PendingIntent.getBroadcast(context, 1001, replyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-            val icon = Icon.createWithResource(context, R.drawable.ic_action_reply)
-            val action = Notification.Action.Builder(icon, "Reply", replyPendingIntent)
+            val replyIcon = Icon.createWithResource(context, R.drawable.ic_action_reply)
+            val action = Notification.Action.Builder(replyIcon, "Reply", replyPendingIntent)
                     .addRemoteInput(remoteInput)
                     .setSemanticAction(Notification.Action.SEMANTIC_ACTION_REPLY)
                     .build()
 
+            val uri = getImageUri(context)
+            val userIcon = Icon.createWithContentUri(uri)
+
             val user1 = Notification.Person().apply {
+                key = "taro.yamada@example.com"
                 name = "Taro Yamada"
-                setIcon(Icon.createWithContentUri(getImageUri(context)))
+                icon = userIcon
             }
             val user2 = Notification.Person().apply {
                 name = "Jiro Yamada"
-                setIcon(Icon.createWithContentUri(getImageUri(context)))
+                icon = userIcon
             }
             val user3 = Notification.Person().apply {
                 name = "Saburo Yamada"
-                setIcon(Icon.createWithContentUri(getImageUri(context)))
+                icon = userIcon
             }
             val style = Notification.MessagingStyle(user1)
-            style.addMessage("Message 1", 1L, user1)
-            style.addMessage("Message 2", 1L, user2)
-            style.addMessage("Message 3", 1L, user3)
             style.isGroupConversation = true
             style.conversationTitle = "Conversation title"
+
+            style.addMessage("Message 1", 1L, user1)
+            style.addMessage("Message 2", 1L, user2)
+            style.addMessage(Notification.MessagingStyle.Message("Message 3", 1L, user3).apply {
+                this.setData("image/jpeg", uri)
+            })
 
             val notification = Notification.Builder(context, CHANNEL_ID_1_1)
                     .setStyle(style)
