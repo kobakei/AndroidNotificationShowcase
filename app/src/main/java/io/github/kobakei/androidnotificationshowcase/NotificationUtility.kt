@@ -1,6 +1,8 @@
 package io.github.kobakei.androidnotificationshowcase
 
+import android.annotation.SuppressLint
 import android.app.*
+import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
@@ -11,6 +13,9 @@ import android.support.v4.app.RemoteInput
 import android.support.v4.content.ContextCompat
 import android.widget.RemoteViews
 import android.graphics.Bitmap
+import android.graphics.drawable.Icon
+import android.net.Uri
+import android.provider.MediaStore
 import android.util.Log
 import java.io.IOException
 import java.io.InputStream
@@ -435,29 +440,47 @@ class NotificationUtility {
 
         /**
          * ダイレクトリプライの通知を表示する(Android P)
+         * memo: サポートライブラリがPersonなど色々対応してないので、普通のクラスを使う
          */
+        @SuppressLint("NewApi")
         fun showReplyNotificationForP(context: Context) {
             val intent = Intent(context, MainActivity::class.java)
             val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-            // API 24以降のみなので、分岐する
-            val action = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                val remoteInput = RemoteInput.Builder(KEY_REMOTE_INPUT)
-                        .setLabel("Reply Label")
-                        .setChoices(arrayOf("😀", "😎", "😇"))
-                        .build()
+            val remoteInput = android.app.RemoteInput.Builder(KEY_REMOTE_INPUT)
+                    .setLabel("Reply Label")
+                    .setChoices(arrayOf("Hello", "Bye", "Thanks"))
+                    .build()
 
-                val replyIntent = Intent(context, MyBroadcastReceiver::class.java)
-                val replyPendingIntent = PendingIntent.getBroadcast(context, 1001, replyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-                NotificationCompat.Action.Builder(R.drawable.ic_action_reply, "Reply", replyPendingIntent)
-                        .addRemoteInput(remoteInput)
-                        .build()
-            } else {
-                NotificationCompat.Action.Builder(R.drawable.ic_action_reply, "Reply", pendingIntent)
-                        .build()
+            val replyIntent = Intent(context, MyBroadcastReceiver::class.java)
+            val replyPendingIntent = PendingIntent.getBroadcast(context, 1001, replyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+            val icon = Icon.createWithResource(context, R.drawable.ic_action_reply)
+            val action = Notification.Action.Builder(icon, "Reply", replyPendingIntent)
+                    .addRemoteInput(remoteInput)
+                    .setSemanticAction(Notification.Action.SEMANTIC_ACTION_REPLY)
+                    .build()
+
+            val user1 = Notification.Person().apply {
+                name = "Taro Yamada"
+                setIcon(Icon.createWithContentUri(getImageUri(context)))
             }
+            val user2 = Notification.Person().apply {
+                name = "Jiro Yamada"
+                setIcon(Icon.createWithContentUri(getImageUri(context)))
+            }
+            val user3 = Notification.Person().apply {
+                name = "Saburo Yamada"
+                setIcon(Icon.createWithContentUri(getImageUri(context)))
+            }
+            val style = Notification.MessagingStyle(user1)
+            style.addMessage("Message 1", 1L, user1)
+            style.addMessage("Message 2", 1L, user2)
+            style.addMessage("Message 3", 1L, user3)
+            style.isGroupConversation = true
+            style.conversationTitle = "Conversation title"
 
-            val notification = NotificationCompat.Builder(context, CHANNEL_ID_1_1)
+            val notification = Notification.Builder(context, CHANNEL_ID_1_1)
+                    .setStyle(style)
                     .setContentTitle("This is title")
                     .setContentText("This is message")
                     .setTicker("This is ticker") // for legacy Android
@@ -707,6 +730,17 @@ class NotificationUtility {
             }
 
             return bmp
+        }
+
+        private fun getImageUri(context: Context): Uri? {
+            var uri: Uri? = null
+            val cursor = context.contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, null, null, null, null)
+            if (cursor.moveToFirst()) {
+                val id = cursor.getLong(cursor.getColumnIndex(MediaStore.Images.ImageColumns._ID))
+                uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id)
+            }
+            cursor.close()
+            return uri
         }
     }
 }
